@@ -15,41 +15,53 @@ isThisWorking = "Yes"
 --
 
 lastDigit :: Integer -> Integer
-lastDigit = error "lastDigit not yet defined"
+lastDigit n = n `mod` 10
 
 dropLastDigit :: Integer -> Integer
-dropLastDigit = error "dropLastDigit not yet defined"
+dropLastDigit n = div n 10 
 
 toDigits :: Integer -> [Integer]
-toDigits = error "toDigits not yet defined"
+toDigits 0 = []
+toDigits n = if n > 0 then (toDigits (dropLastDigit n)) ++ [(n `mod` 10)] else []
 
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther = error "doubleEveryOther not yet defined"
+doubleEveryOther xs = reverse (doubleEveryOther' ((reverse xs), False))
+
+doubleEveryOther' :: ([Integer], Bool) -> [Integer]
+doubleEveryOther' ([], b) = []
+doubleEveryOther' (xs, b) = (if b then [(head xs) * 2] else [head xs]) ++
+  doubleEveryOther'(tail xs, not b)
 
 sumDigits :: [Integer] -> Integer
-sumDigits = error "sumDigits not yet defined"
+sumDigits [] = 0
+sumDigits xs = (sum (toDigits (head xs))) + (sumDigits (tail xs))
 
 validate :: Integer -> Bool
-validate = error "validate not yet defined"
+validate n = lastDigit (sumDigits (doubleEveryOther (toDigits n))) == 0
 
 --
 -- Problem 2
 --
 
 pow :: (a -> a) -> Int -> a -> a
-pow = error "pow not yet defined"
+pow f 0 = \x -> x
+pow f 1 = f
+pow f n = (f . (pow f (n - 1)))
 
 g :: Integer -> Integer
-g = error "g not yet defined"
+g 0 = 0
+g n = n - ((pow g 2) (n - 1))
 
 h :: Integer -> Integer
-h = error "h not yet defined"
+h 0 = 0
+h n = n - ((pow h 3) (n - 1))
 
 d :: Int -> Integer -> Integer
-d = error "d not yet defined"
+d i 0 = 0
+d i n = n - ((pow (d i) i) (n - 1))
 
 --
 -- Problem 3
 --
 
-powerSet = error "powerSet not yet defined"
+powerSet s | isEmpty s = singleton empty
